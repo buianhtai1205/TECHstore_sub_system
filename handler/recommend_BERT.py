@@ -62,6 +62,7 @@ def calculate_similarity(vector1, vector2):
 def calculate_similarity_for_product(product_row, other_products, model, tokenizer):
     similarities = []
     for _, other_product_row in other_products.iterrows():
+        print("Loading...")
         if other_product_row['id'] != product_row['id']:
             similarity_info = {'id': other_product_row['id']}
             sum = 0

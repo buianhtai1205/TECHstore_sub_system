@@ -9,7 +9,7 @@ from handler.connect import update_data_to_csv
 import handler.utils as utils
 
 app = FastAPI()
-update_data_to_csv()
+# update_data_to_csv()
 data = readData()
 
 # model_USE = load_model_USE()
@@ -33,13 +33,15 @@ async def root():
 #     return {"Data": f"{recommended_products}"}
 
 
-@app.post("/bert")
-async def recommend_based_BERT(productIds : List[int]):
+# @app.post("/bert")
+# async def recommend_based_BERT(productIds : List[int]):
+@app.get("/bert")
+async def recommend_based_BERT():
     # Kiểm tra xem danh sách ID sản phẩm có rỗng không
-    if not productIds:
-        raise HTTPException(status_code=400, detail="Empty list of product IDs")
+    # if not productIds:
+    #     raise HTTPException(status_code=400, detail="Empty list of product IDs")
 
-    product_info = utils.get_product_by_id(data, productIds[0])
+    product_info = utils.get_product_by_id(data, 2320)
     if product_info is not None:
         print("Product found:")
         print(product_info)
