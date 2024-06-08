@@ -118,7 +118,7 @@ async def upload_csv():
     api_url = "http://localhost:8081/api/manage/product/create"
     headers = {
         'accept': '*/*',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTIzNDU2Nzg5IiwiaWF0IjoxNzE3ODI4OTY2LCJleHAiOjE3MTc4MzA3NjZ9.0jpcyzS-dt3U9bNNJR_c2ACbFY9DIu376cDyWZpm4Os',
+        'Authorization': 'Bearer ',
         'Content-Type': 'application/json'
     }
 

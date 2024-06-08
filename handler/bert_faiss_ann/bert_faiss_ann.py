@@ -17,7 +17,6 @@ def encode_attribute(attribute, model, tokenizer):
 
 # Hàm để chuyển đổi sản phẩm thành vector đa chiều (kết hợp các vector thuộc tính)
 def encode_product(product, model, tokenizer):
-    print()
     vectors = []
     for prop in ['name', 'brand_name', 'characteristic_name', 'description', 'attribute_values']:
         vectors.append(encode_attribute(str(product[prop]), model, tokenizer))
