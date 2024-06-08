@@ -22,19 +22,6 @@ def calculate_similarity_bert(input_text, data_column, model, tokenizer):
     return similarities
 
 
-# Hàm lấy các sản phẩm gợi ý dựa trên mô hình BERT
-def get_recommendations_bert(input_text, data, model, tokenizer, column, top_n=10, threshold=0.999):
-    similarities = calculate_similarity_bert(input_text, data[column].values.astype('U'), model, tokenizer)
-    recommendations = []
-    for idx, sim in enumerate(similarities):
-        if sim < threshold:
-            recommendations.append((idx, sim))
-    top_recommendations = sorted(recommendations, key=lambda x: x[1], reverse=True)[:top_n]
-    for idx, sim in top_recommendations:
-        print(f"Similarity: {sim}, Product: {data.iloc[idx][column].encode('utf-8')}")
-    return [idx for idx, _ in top_recommendations]
-
-
 # Hàm tính toán độ tương tự giữa sản phẩm đích và tất cả các sản phẩm khác
 def calculate_product_similarity_all_columns(product_info, data, model, tokenizer):
     similarities = []
