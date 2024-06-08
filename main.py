@@ -11,7 +11,7 @@ from handler.bert_hnsw.bert_hnsw import get_recommendations_bert_hnsw
 import handler.utils as utils
 
 app = FastAPI()
-# update_data_to_csv()
+update_data_to_csv()
 data = readData()
 
 # Load model BERT
