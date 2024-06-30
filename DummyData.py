@@ -30,10 +30,12 @@ brand_map = {
 # List of known brands
 known_brands = list(brand_map.keys())
 
+
 def convert_price_to_vnd(price_in_inr):
     price_numeric = float(price_in_inr.replace("₹", "").replace(",", ""))
     price_in_vnd = price_numeric * INR_TO_VND
     return round(price_in_vnd)
+
 
 def extract_ram_and_storage(ram_storage_str):
     parts = ram_storage_str.split(',')
@@ -41,11 +43,13 @@ def extract_ram_and_storage(ram_storage_str):
     storage_capacity = parts[1].replace('inbuilt', '').strip() if len(parts) > 1 else ""
     return ram, storage_capacity
 
+
 def get_brand_id(model_name):
     for brand in known_brands:
         if brand.lower() in model_name.lower():
             return brand_map[brand]
     return brand_map["Other"]
+
 
 def format_data(record):
     ram, storage_capacity = extract_ram_and_storage(record["ram"])
@@ -106,19 +110,21 @@ def format_data(record):
     }
     return formatted_data
 
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+
 @app.get("/upload_csv")
 async def upload_csv():
-    data = pd.read_csv('/home/anhtai/PycharmProjects/fastApiProject/handler/smartphones.csv', dtype=str)
+    data = pd.read_csv('D:\\KLTN\\TECHstore_sub_system\\handler\\smartphones.csv', dtype=str)
     records = data.to_dict(orient='records')
 
-    api_url = "http://localhost:8081/api/manage/product/create"
+    api_url = "http://localhost:8080/api/manage/product/create"
     headers = {
         'accept': '*/*',
-        'Authorization': 'Bearer ',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTIzNDU2Nzg5IiwiaWF0IjoxNzE4ODA2MjAyLCJleHAiOjE3MTg4MDgwMDJ9.CXmxLCYQxUNBNLoVd5PAI0r6eTLOhro4ktyG_9nQjw4',
         'Content-Type': 'application/json'
     }
 
@@ -136,4 +142,4 @@ async def upload_csv():
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(app, host='127.0.0.1', port=8000)

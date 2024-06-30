@@ -26,7 +26,7 @@ def create_vectors_and_faiss_index(data, model, tokenizer):
     # Chuyển đổi tất cả các sản phẩm thành vector và chuẩn hóa chúng
     product_vectors = np.array([encode_product(product, model, tokenizer) for index, product in data.iterrows()])
     product_vectors = normalize(product_vectors)
-    np.save('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_faiss/product_vectors.npy', product_vectors)
+    np.save('D://KLTN//TECHstore_sub_system//handler//bert_faiss//product_vectors.npy', product_vectors)
 
     # Tạo index FAISS
     d = product_vectors.shape[1]
@@ -36,21 +36,21 @@ def create_vectors_and_faiss_index(data, model, tokenizer):
     index.add(product_vectors)
 
     # Lưu trữ index FAISS
-    faiss.write_index(index, '/home/anhtai/PycharmProjects/fastApiProject/handler/bert_faiss/product_index.faiss')
+    faiss.write_index(index, 'D://KLTN//TECHstore_sub_system//handler//bert_faiss//product_index.faiss')
 
 def load_vectors_and_faiss_index():
     # Đọc các vector sản phẩm đã lưu trữ
-    product_vectors = np.load('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_faiss/product_vectors.npy')
+    product_vectors = np.load('D://KLTN//TECHstore_sub_system//handler//bert_faiss//product_vectors.npy')
 
     # Tải lại FAISS index
-    index = faiss.read_index('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_faiss/product_index.faiss')
+    index = faiss.read_index('D://KLTN//TECHstore_sub_system//handler//bert_faiss//product_index.faiss')
 
     return product_vectors, index
 
 def get_recommendations_bert_faiss(data, product, model, tokenizer):
     # Kiểm tra nếu tệp vector và FAISS index đã tồn tại
-    if (not os.path.exists('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_faiss/product_vectors.npy')
-            or not os.path.exists('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_faiss/product_index.faiss')):
+    if (not os.path.exists('D://KLTN//TECHstore_sub_system//handler//bert_faiss//product_vectors.npy')
+            or not os.path.exists('D://KLTN//TECHstore_sub_system//handler//bert_faiss//product_index.faiss')):
         # Tạo vector và FAISS index nếu chưa tồn tại
         print("Creating faiss index...")
         create_vectors_and_faiss_index(data, model, tokenizer)
@@ -83,13 +83,12 @@ def get_recommendations_bert_faiss(data, product, model, tokenizer):
     product_names = data['name'].tolist()
 
     # In ra các sản phẩm tương ứng với các chỉ số được tìm thấy
-    print("Kết quả tìm kiếm:")
+    print("Ket qua tim kiem:")
     for i in range(k):
         top_n.append(product_ids[indices[0][i]])
         print(f"Vector {i + 1}: Index {indices[0][i]}, Similarity {similarities[0][i]}")
         print("ID:", product_ids[indices[0][i]])
-        print("Tên sản phẩm:", product_names[indices[0][i]])
-        print("Vector sản phẩm:", product_vectors[indices[0][i]])
-        print()
+        print("Ten san pham:", product_names[indices[0][i]])
+        print("Vector san pham:", product_vectors[indices[0][i]])
 
     return top_n

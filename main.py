@@ -1,6 +1,8 @@
 from typing import List
 
 from fastapi import FastAPI, HTTPException
+from starlette.middleware.cors import CORSMiddleware
+
 from handler.read_csv import readData
 from handler.model import load_model_BERT, load_tokenizer_BERT
 from handler.recommend_BERT import get_recommendations_based_on_product_all_columns
@@ -17,6 +19,18 @@ data = readData()
 # Load model BERT
 model_BERT = load_model_BERT()
 tokenizer_BERT = load_tokenizer_BERT()
+
+origins = [
+    "*",  # Allows all origins
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 
 @app.get("/")

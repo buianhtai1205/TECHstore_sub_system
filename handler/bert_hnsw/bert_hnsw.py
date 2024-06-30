@@ -26,7 +26,7 @@ def create_vectors_and_hnsw_index(data, model, tokenizer):
     # Chuyển đổi tất cả các sản phẩm thành vector và chuẩn hóa chúng
     product_vectors = np.array([encode_product(product, model, tokenizer) for index, product in data.iterrows()])
     product_vectors = normalize(product_vectors)
-    np.save('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_hnsw/product_vectors.npy', product_vectors)
+    np.save('D://KLTN//TECHstore_sub_system//handler//bert_hnsw//product_vectors.npy', product_vectors)
 
     # Tạo index HNSW
     index = nmslib.init(method='hnsw', space='cosinesimil')
@@ -34,22 +34,22 @@ def create_vectors_and_hnsw_index(data, model, tokenizer):
     index.createIndex({'post': 2}, print_progress=True)
 
     # Lưu trữ index hnsw
-    index.saveIndex('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_hnsw/product_index.hnsw')
+    index.saveIndex('D://KLTN//TECHstore_sub_system//handler//bert_hnsw//product_index.hnsw')
 
 def load_vectors_and_hnsw_index():
     # Đọc các vector sản phẩm đã lưu trữ
-    product_vectors = np.load('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_hnsw/product_vectors.npy')
+    product_vectors = np.load('D://KLTN//TECHstore_sub_system//handler//bert_hnsw//product_vectors.npy')
 
     # Tải lại index HNSW
     index = nmslib.init(method='hnsw', space='cosinesimil')
-    index.loadIndex('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_hnsw/product_index.hnsw')
+    index.loadIndex('D://KLTN//TECHstore_sub_system//handler//bert_hnsw//product_index.hnsw')
 
     return product_vectors, index
 
 def get_recommendations_bert_hnsw(data, product, model, tokenizer):
     # Kiểm tra nếu tệp vector và hnsw index đã tồn tại
-    if (not os.path.exists('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_hnsw/product_vectors.npy')
-            or not os.path.exists('/home/anhtai/PycharmProjects/fastApiProject/handler/bert_hnsw/product_index.hnsw')):
+    if (not os.path.exists('D://KLTN//TECHstore_sub_system//handler//bert_hnsw//product_vectors.npy')
+            or not os.path.exists('D://KLTN//TECHstore_sub_system//handler//bert_hnsw//product_index.hnsw')):
         # Tạo vector và hnsw index nếu chưa tồn tại
         print("Creating hnsw index...")
         create_vectors_and_hnsw_index(data, model, tokenizer)
@@ -82,13 +82,13 @@ def get_recommendations_bert_hnsw(data, product, model, tokenizer):
     product_names = data['name'].tolist()
 
     # In ra các sản phẩm tương ứng với các chỉ số được tìm thấy
-    print("Kết quả tìm kiếm:")
+    print("Ket qua tim kiem:")
     for i in range(k):
         top_n.append(product_ids[ids[i]])
         print(f"Vector {i + 1}: ID {ids[i]}, Similarity {distances[i]}")
         print("ID:", product_ids[ids[i]])
-        print("Tên sản phẩm:", product_names[ids[i]])
-        print("Vector sản phẩm:", product_vectors[ids[i]])
+        print("Ten san pham:", product_names[ids[i]])
+        print("Vector san pham:", product_vectors[ids[i]])
         print()
 
     return top_n

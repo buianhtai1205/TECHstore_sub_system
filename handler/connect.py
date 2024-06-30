@@ -33,7 +33,7 @@ def update_data_to_csv():
     connection.close()
 
     # Open the CSV file to write data with UTF-8 encoding
-    with open('/home/anhtai/PycharmProjects/fastApiProject/handler/data.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open('D://KLTN//TECHstore_sub_system//handler//data.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         # Create header with new column for attribute values
         header = [i[0] for i in cursorBasic.description] + ['attribute_values']
